@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="TicTacToe">
   <head>
-    <meta charset=utf-8>
-    <title>
-      TicTacToe
-    </title>
+    <meta charset="utf-8">
+    <title>TicTacToe</title>
     <link rel="stylesheet" href="/css/application.css" media="all">
   </head>
   <body>
     <header role="banner">
-    <h1>
-      <span class="tic">Tic</span><span class="tac">Tac</span><span class="toc">Toe</span>
-    </h1>
+      <h1>
+        <span class="tic">Tic</span><span class="tac">Tac</span><span class="toe">Toe</span>
+      </h1>
     </header>
     <main role="main" data-ng-controller="BoardCtrl">
       <section id="gameboard" class="board">
@@ -31,11 +29,11 @@
           <div id="cell-8" data-index="8" data-ng-click="mark($event)" class="board-cell bottom right {{cells.8}}">{{cells.8}}</div>
         </div>
       </section>
-      <section id="win-message" class="message" data-ng-show="theWinnerIs">
-        <p>{{theWinnerIs}} won!</p>
+      <section id="win-message" class="{{theWinnerIs}} winner message" data-ng-show="theWinnerIs">
+        <p>{{theWinnerIs.toUpperCase()}} is the winner!</p>
       </section>
-      <section id="tie-message" class="message" data-ng-show="cats">
-        <p>It's a tie!</p>
+      <section id="tie-message" class="tied message" data-ng-show="cats">
+        <p>Tie game!</p>
       </section>
       <section id="control-button" class="button" data-ng-hide="gameOn">
         <button id="start-game" class="game-control" data-ng-click="startGame()">Play Game</button>
