@@ -23,7 +23,7 @@
       this.numberOfMoves = __bind(this.numberOfMoves, this);
       this.resetBoard = __bind(this.resetBoard, this);
       this.getRow = __bind(this.getRow, this);
-      this.getPatters = __bind(this.getPatters, this);
+      this.getPatterns = __bind(this.getPatterns, this);
       this.startGame = __bind(this.startGame, this);
       this.resetBoard();
       this.$scope.mark = this.mark;
@@ -36,15 +36,15 @@
       return this.resetBoard();
     };
 
-    BoardCtrl.prototype.getPatters = function() {
-      return this.Settings.WIN_PATTERNS.filter(function() {
+    BoardCtrl.prototype.getPatterns = function() {
+      return this.patternsToTest = this.WIN_PATTERNS.filter(function() {
         return true;
       });
     };
 
     BoardCtrl.prototype.getRow = function(pattern) {
       var c, c0, c1, c2;
-      c = this.$scope.cells;
+      c = this.cells;
       c0 = c[pattern[0]] || pattern[0];
       c1 = c[pattern[1]] || pattern[1];
       c2 = c[pattern[2]] || pattern[2];
@@ -56,7 +56,10 @@
     };
 
     BoardCtrl.prototype.resetBoard = function() {
-      return this.$scope.cells = {};
+      this.$scope.theWinnerIs = false;
+      this.$scope.cats = false;
+      this.cells = this.$scope.cells = {};
+      return this.getPatterns();
     };
 
     BoardCtrl.prototype.numberOfMoves = function() {
@@ -121,12 +124,12 @@
       winner = this.player({
         whoMovedLast: true
       });
-      alert("" + winner + " wins!");
+      this.$scope.theWinnerIs = winner;
       return this.$scope.gameOn = false;
     };
 
     BoardCtrl.prototype.announceTie = function() {
-      alert("It's a tie!");
+      this.$scope.cats = true;
       return this.$scope.gameOn = false;
     };
 
@@ -155,9 +158,11 @@
     BoardCtrl.prototype.mark = function($event) {
       var cell;
       this.$event = $event;
-      cell = this.$event.target.dataset.index;
-      this.cells[cell] = this.player();
-      return this.parseBoard();
+      if (this.$scope.gameOn) {
+        cell = this.$event.target.dataset.index;
+        this.cells[cell] = this.player();
+        return this.parseBoard();
+      }
     };
 
     return BoardCtrl;
