@@ -16,8 +16,14 @@ ticTacToe.constant 'WIN_PATTERNS',
 
 class BoardCtrl
   constructor: (@$scope, @WIN_PATTERNS) ->
-    @cells = @$scope.cells = {}
-    @getPatters()
+    @resetBoard()
+    @$scope.mark = @mark
+    @$scope.startGame = @startGame
+    @$scope.gameOn = false
+
+  startGame: =>
+    @$scope.gameOn = true
+    @resetBoard()
 
   getPatters: =>
     @Settings.WIN_PATTERNS.filter -> true
@@ -77,11 +83,11 @@ class BoardCtrl
   announceWinner: =>
     winner = @player(whoMovedLast: true)
     alert "#{winner} wins!"
-    @resetBoard()
+    @$scope.gameOn = false
 
   announceTie: =>
     alert "It's a tie!"
-    @resetBoard()
+    @$scope.gameOn = false
 
   rowStillWinnable: (row) =>
     not (@isMixedRow(row) or
