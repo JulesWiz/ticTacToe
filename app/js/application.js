@@ -121,8 +121,7 @@
       return this.patternsToTest.length < 1;
     };
 
-    BoardCtrl.prototype.announceWinner = function() {
-      var winner;
+    BoardCtrl.prototype.announceWinner = function(winner) {
       winner = this.player({
         whoMovedLast: true
       });

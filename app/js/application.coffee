@@ -85,7 +85,7 @@ class BoardCtrl
   gameUnwinnable: =>
     @patternsToTest.length < 1
 
-  announceWinner: =>
+  announceWinner: (winner) =>
     winner = @player(whoMovedLast: true)
     @$scope.theWinnerIs = winner
     @$scope.gameOn = false
