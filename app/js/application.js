@@ -31,8 +31,6 @@
       this.$scope.mark = this.mark;
       this.$scope.startGame = this.startGame;
       this.$scope.gameOn = false;
-      this.dbRef = new Firebase("https://tictactoe-julie.firebaseio.com/");
-      this.db = this.$firebase(this.dbRef);
     }
 
     BoardCtrl.prototype.uniqueId = function(length) {
@@ -48,9 +46,6 @@
     };
 
     BoardCtrl.prototype.startGame = function() {
-      this.db.$add({
-        game: this.uniqueId()
-      });
       this.$scope.gameOn = true;
       return this.resetBoard();
     };
@@ -79,6 +74,17 @@
       this.$scope.cats = false;
       this.cells = this.$scope.cells = {};
       this.winningCells = this.$scope.winningCells = {};
+      if (this.unbind) {
+        this.unbind();
+      }
+      this.id = this.uniqueId();
+      this.dbRef = new Firebase("https://tictactoe-julie.firebaseio.com/" + this.id);
+      this.db = this.$firebase(this.dbRef);
+      this.db.$bind(this.$scope, 'cells').then((function(_this) {
+        return function(unbind) {
+          return _this.unbind = unbind;
+        };
+      })(this));
       this.$scope.currentPlayer = this.player();
       return this.getPatterns();
     };
