@@ -20,10 +20,16 @@ class BoardCtrl
     @$scope.mark = @mark
     @$scope.startGame = @startGame
     @$scope.gameOn = false
-    @dbRef = new Firebase("https://tictactoe-julie.firebaseio.com/")
+    @dbRef = new Firebase "https://tictactoe-julie.firebaseio.com/"
     @db = @$firebase @dbRef
 
+  uniqueId: (length=8) ->
+    id = ""
+    id += Math.random().toString(36).substr(2) while id.length < length
+    id.substr 0, length
+
   startGame: =>
+    @db.$add game: @uniqueId()
     @$scope.gameOn = true
     @resetBoard()
 

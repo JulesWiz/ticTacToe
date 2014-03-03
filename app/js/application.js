@@ -35,7 +35,22 @@
       this.db = this.$firebase(this.dbRef);
     }
 
+    BoardCtrl.prototype.uniqueId = function(length) {
+      var id;
+      if (length == null) {
+        length = 8;
+      }
+      id = "";
+      while (id.length < length) {
+        id += Math.random().toString(36).substr(2);
+      }
+      return id.substr(0, length);
+    };
+
     BoardCtrl.prototype.startGame = function() {
+      this.db.$add({
+        game: this.uniqueId()
+      });
       this.$scope.gameOn = true;
       return this.resetBoard();
     };
